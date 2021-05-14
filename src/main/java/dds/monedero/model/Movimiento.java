@@ -48,7 +48,7 @@ public class Movimiento {
 
   }
 
-  //este metodo es raro
+  //este metodo se modifico para q calcule si resta o suma recibiendo solo el saldo
   public double calcularValor(double saldo) {
     if (esDeposito) {
       return saldo + getMonto();
