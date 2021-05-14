@@ -35,6 +35,7 @@ public class Cuenta {
       throw new MaximaCantidadDepositosException("Ya excedio los " + 3 + " depositos diarios");
     }
 
+    //CODE SMELL, agregateA deberia ser un metodo de cuenta, no de movimiento. agregarMovimiento falta un metodo agregar saldo
     new Movimiento(LocalDate.now(), cuanto, true).agregateA(this);
   }
 
@@ -51,15 +52,19 @@ public class Cuenta {
       throw new MaximoExtraccionDiarioException("No puede extraer mas de $ " + 1000
           + " diarios, límite: " + limite);
     }
+    //Mismo CODE SMELL que arriba, se puede usar agregarMovimiento.
     new Movimiento(LocalDate.now(), cuanto, false).agregateA(this);
   }
 
+  //agregar modificacion de saldo
   public void agregarMovimiento(LocalDate fecha, double cuanto, boolean esDeposito) {
     Movimiento movimiento = new Movimiento(fecha, cuanto, esDeposito);
+    this.setSaldo(movimiento.calcularValor(this.getSaldo()));
     movimientos.add(movimiento);
   }
 
   public double getMontoExtraidoA(LocalDate fecha) {
+    //no usa el metodo isExtraccion, tampoco usa el metodo fueExtraido.
     return getMovimientos().stream()
         .filter(movimiento -> !movimiento.isDeposito() && movimiento.getFecha().equals(fecha))
         .mapToDouble(Movimiento::getMonto)
