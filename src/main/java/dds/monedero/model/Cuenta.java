@@ -36,7 +36,7 @@ public class Cuenta {
     }
 
     //CODE SMELL, agregateA deberia ser un metodo de cuenta, no de movimiento. agregarMovimiento falta un metodo agregar saldo
-    new Movimiento(LocalDate.now(), cuanto, true).agregateA(this);
+    agregarMovimiento(LocalDate.now(), cuanto, true);
   }
 
   public void sacar(double cuanto) {
@@ -53,7 +53,7 @@ public class Cuenta {
           + " diarios, límite: " + limite);
     }
     //Mismo CODE SMELL que arriba, se puede usar agregarMovimiento.
-    new Movimiento(LocalDate.now(), cuanto, false).agregateA(this);
+    agregarMovimiento(LocalDate.now(), cuanto, false);
   }
 
   //agregar modificacion de saldo
